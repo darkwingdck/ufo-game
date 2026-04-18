@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bxx81r4jcmqsg" path="res://skybox.png" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://ckyhxf456n5dc" path="res://Scenes/player.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://g4hnu5cswewj" path="res://Scenes/mob.tscn" id="2_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://6lgjhgwxxer2" path="res://Scenes/grab_ring.tscn" id="5_kry3j"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_1bvp3"]
 panorama = ExtResource("1_bo1nx")
@@ -21,7 +22,7 @@ ambient_light_color = Color(1, 1, 1, 1)
 size = Vector3(60, 2, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_21xkr"]
-albedo_color = Color(0.33333334, 0.52156866, 0.29803923, 1)
+albedo_color = Color(0.35686275, 0.49411765, 0.23529412, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 material = SubResource("StandardMaterial3D_21xkr")
@@ -36,7 +37,7 @@ script = ExtResource("1_8gbba")
 mob_scene = ExtResource("2_jjvhh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2068763689]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.80640984, 12.999013, -5.517136)
+transform = Transform3D(1, 0, 0, 0, -0.89526904, 0.44552594, 0, -0.44552594, -0.89526904, -0.80640984, 12.999013, -5.517136)
 light_energy = 0.1
 light_volumetric_fog_energy = 10.0
 shadow_enabled = true
@@ -67,3 +68,6 @@ attributes = SubResource("CameraAttributesPractical_kry3j")
 projection = 1
 fov = 80.0
 size = 15.0
+
+[node name="GrabRing" parent="Player" unique_id=2073420933 instance=ExtResource("5_kry3j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.7269897, 0)
