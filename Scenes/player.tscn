@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://c1uc3ij4bp3yj" path="res://Scripts/ray_cast_3d.gd" id="3_6t5aa"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
-radius = 1.2269864
+radius = 1.4892538
 
 [node name="Player" type="CharacterBody3D" unique_id=1838559469]
 script = ExtResource("1_cvnsp")
@@ -13,7 +13,7 @@ script = ExtResource("1_cvnsp")
 [node name="Pivot" type="Node3D" parent="." unique_id=226021048]
 
 [node name="Character" parent="Pivot" unique_id=72321844 instance=ExtResource("2_6t5aa")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=379610173]
 shape = SubResource("SphereShape3D_onrkg")

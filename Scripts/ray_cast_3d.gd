@@ -1,7 +1,7 @@
 extends RayCast3D
 
-@export var pull_speed: float = 10.0
-@export var stop_distance: float = 1.9
+@export var pull_speed: float = 12.0
+@export var stop_distance: float = 2.2
 
 var grabbed_mob: CharacterBody3D = null
 

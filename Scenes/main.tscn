@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bxx81r4jcmqsg" path="res://skybox.png" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://ckyhxf456n5dc" path="res://Scenes/player.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://g4hnu5cswewj" path="res://Scenes/mob.tscn" id="2_jjvhh"]
-[ext_resource type="Texture2D" uid="uid://djqx4ersjj504" path="res://grass.jpg" id="4_kry3j"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_1bvp3"]
 panorama = ExtResource("1_bo1nx")
@@ -22,12 +21,15 @@ ambient_light_color = Color(1, 1, 1, 1)
 size = Vector3(60, 2, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_21xkr"]
-albedo_texture = ExtResource("4_kry3j")
-uv1_scale = Vector3(43, 43, 43)
+albedo_color = Color(0.33333334, 0.52156866, 0.29803923, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 material = SubResource("StandardMaterial3D_21xkr")
 size = Vector3(60, 2, 60)
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_kry3j"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 30.0
 
 [node name="Main" type="Node3D" unique_id=1330794445]
 script = ExtResource("1_8gbba")
@@ -52,13 +54,16 @@ shape = SubResource("BoxShape3D_1bvp3")
 mesh = SubResource("BoxMesh_lquwl")
 
 [node name="Player" parent="." unique_id=1838559469 instance=ExtResource("2_8gbba")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8633947, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.7805033, 0)
 
 [node name="CameraPivot" type="Marker3D" parent="Player" unique_id=1189069542]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.7902514, 0.612783, 0, -0.612783, 0.7902514, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.88021255, 0.47458, 0, -0.47458, 0.88021255, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot" unique_id=374593196]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, -0.27088118, 5.5736628)
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 5.919811, -0.96679115, 12.483583)
+attributes = SubResource("CameraAttributesPractical_kry3j")
+projection = 1
 fov = 80.0
+size = 15.0

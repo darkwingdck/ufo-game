@@ -13,12 +13,16 @@ config_version=5
 config/name="ufo"
 run/main_scene="uid://dx8t302vaxgmy"
 config/features=PackedStringArray("4.6", "Forward Plus")
-run/max_fps=240
+run/max_fps=120
 config/icon="res://icon.svg"
 
 [debug]
 
 gdscript/warnings/untyped_declaration=1
+
+[display]
+
+window/size/mode=1
 
 [input]
 

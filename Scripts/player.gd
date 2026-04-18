@@ -39,8 +39,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func handle_camera_movement(delta: float) -> void:
-	_camera_pivot.rotation.x += _camera_input_direction.y * delta
-	_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, -PI / 3, PI / 6)
 	_camera_pivot.rotation.y -= _camera_input_direction.x * delta
 	
 	_camera_input_direction = Vector2.ZERO
@@ -52,13 +50,11 @@ func handle_gamepad_camera_input() -> void:
 	)
 	if stick_input.length() < deadzone:
 		return
-	stick_input.y *= -1.0
-	_camera_input_direction += stick_input * gamepad_sensitivity
+	_camera_input_direction.x += stick_input.x * gamepad_sensitivity
 	
 
 func handle_movement(delta: float) -> void:
 	var raw_input: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var vertical_input: float = Input.get_axis("move_down", "move_up")
 
 	var forward: Vector3 = _camera.global_basis.z
 	var right: Vector3 = _camera.global_basis.x
@@ -67,7 +63,6 @@ func handle_movement(delta: float) -> void:
 	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
 
-	# --- Горизонталь ---
 	var horizontal_velocity: Vector3 = velocity
 	horizontal_velocity.y = 0.0
 	horizontal_velocity = horizontal_velocity.move_toward(
@@ -75,13 +70,4 @@ func handle_movement(delta: float) -> void:
 		acceleration * delta
 	)
 
-	# --- Вертикаль (с инерцией) ---
-	var target_y: float = vertical_input * movement_speed
-	var new_y: float = move_toward(velocity.y, target_y, acceleration * delta)
-
-	# --- Итог ---
-	velocity = Vector3(
-		horizontal_velocity.x,
-		new_y,
-		horizontal_velocity.z
-	)
+	velocity = velocity.move_toward(move_direction * movement_speed, acceleration * delta)
