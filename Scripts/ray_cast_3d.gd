@@ -8,13 +8,18 @@ var grabbed_mob: CharacterBody3D = null
 var grab_ring: Node3D = null
 var grab_ring_hint: Node3D = null
 
+var grab_beam: MeshInstance3D = null
+
 func _ready() -> void:
 	grab_ring = get_node("../GrabRing")
 	grab_ring_hint = grab_ring_hint_scene.instantiate()
 	grab_ring_hint.visible = false
 	grab_ring.add_child(grab_ring_hint, true)
+	
+	grab_beam = get_node("../GrabBeam")
 
 func _physics_process(delta: float) -> void:
+	grab_beam.visible = false
 	if !is_colliding():
 		grab_ring_hint.visible = false
 		return
@@ -26,8 +31,10 @@ func _physics_process(delta: float) -> void:
 	grabbed_mob = hit
 	
 	if Input.is_action_pressed("grab"):
+		grab_beam.visible = true
 		pull_mob(delta)
 	else:
+		grab_beam.visible = false
 		grabbed_mob = null
 
 
