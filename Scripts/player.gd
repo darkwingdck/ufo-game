@@ -57,15 +57,31 @@ func handle_gamepad_camera_input() -> void:
 	
 
 func handle_movement(delta: float) -> void:
-	var raw_input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	
-	var forward := _camera.global_basis.z
-	var right := _camera.global_basis.x
-	
-	var move_direction := forward * raw_input.y + right * raw_input.x
-	move_direction.y = 0
+	var raw_input: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var vertical_input: float = Input.get_axis("move_down", "move_up")
+
+	var forward: Vector3 = _camera.global_basis.z
+	var right: Vector3 = _camera.global_basis.x
+
+	var move_direction: Vector3 = forward * raw_input.y + right * raw_input.x
+	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
-	
-	velocity = velocity.move_toward(move_direction * movement_speed, acceleration * delta)
-	
-	
+
+	# --- Горизонталь ---
+	var horizontal_velocity: Vector3 = velocity
+	horizontal_velocity.y = 0.0
+	horizontal_velocity = horizontal_velocity.move_toward(
+		move_direction * movement_speed,
+		acceleration * delta
+	)
+
+	# --- Вертикаль (с инерцией) ---
+	var target_y: float = vertical_input * movement_speed
+	var new_y: float = move_toward(velocity.y, target_y, acceleration * delta)
+
+	# --- Итог ---
+	velocity = Vector3(
+		horizontal_velocity.x,
+		new_y,
+		horizontal_velocity.z
+	)
