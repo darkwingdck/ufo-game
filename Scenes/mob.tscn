@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://g4hnu5cswewj"]
+
+[ext_resource type="Script" uid="uid://dna3p7kdoqahh" path="res://Scripts/mob.gd" id="1_u8nqw"]
+[ext_resource type="PackedScene" uid="uid://cn7620m1khel2" path="res://Art/Models/cow.glb" id="2_b44se"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ypr7k"]
+size = Vector3(1.2142334, 0.88479614, 2.0048943)
+
+[node name="Mob" type="CharacterBody3D" unique_id=532819903]
+script = ExtResource("1_u8nqw")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=189085441]
+
+[node name="Character" parent="Pivot" unique_id=1725956362 instance=ExtResource("2_b44se")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2066726022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.002746582, 0.06959534, -0.14961433)
+shape = SubResource("BoxShape3D_ypr7k")

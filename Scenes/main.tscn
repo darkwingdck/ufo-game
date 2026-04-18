@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://dx8t302vaxgmy"]
+
+[ext_resource type="Script" uid="uid://mvv8hg8lgu0t" path="res://Scripts/main.gd" id="1_8gbba"]
+[ext_resource type="Texture2D" uid="uid://bxx81r4jcmqsg" path="res://skybox.png" id="1_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://ckyhxf456n5dc" path="res://Scenes/player.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://g4hnu5cswewj" path="res://Scenes/mob.tscn" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://djqx4ersjj504" path="res://grass.jpg" id="4_kry3j"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_1bvp3"]
+panorama = ExtResource("1_bo1nx")
+
+[sub_resource type="Sky" id="Sky_lquwl"]
+sky_material = SubResource("PanoramaSkyMaterial_1bvp3")
+
+[sub_resource type="Environment" id="Environment_7mycd"]
+background_mode = 2
+sky = SubResource("Sky_lquwl")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_21xkr"]
+albedo_texture = ExtResource("4_kry3j")
+uv1_scale = Vector3(20, 20, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
+material = SubResource("StandardMaterial3D_21xkr")
+size = Vector3(60, 2, 60)
+
+[node name="Main" type="Node3D" unique_id=1330794445]
+script = ExtResource("1_8gbba")
+mob_scene = ExtResource("2_jjvhh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2068763689]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.80640984, 12.999013, -5.517136)
+light_energy = 0.1
+light_volumetric_fog_energy = 10.0
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=431490460]
+environment = SubResource("Environment_7mycd")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1049672212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1389252130]
+shape = SubResource("BoxShape3D_1bvp3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1600735746]
+mesh = SubResource("BoxMesh_lquwl")
+
+[node name="Player" parent="." unique_id=1838559469 instance=ExtResource("2_8gbba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8633947, 0)
+
+[node name="CameraPivot" type="Marker3D" parent="Player" unique_id=1189069542]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.7902514, 0.612783, 0, -0.612783, 0.7902514, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot" unique_id=374593196]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, -0.27088118, 5.5736628)
+fov = 80.0
