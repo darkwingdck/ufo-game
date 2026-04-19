@@ -18,6 +18,7 @@ background_mode = 2
 sky = SubResource("Sky_lquwl")
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
 size = Vector3(60, 2, 60)
@@ -31,7 +32,7 @@ size = Vector3(200, 2, 200)
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_kry3j"]
 dof_blur_far_enabled = true
-dof_blur_far_distance = 30.0
+dof_blur_far_distance = 27.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kry3j"]
 transparency = 1
@@ -41,7 +42,9 @@ albedo_color = Color(0.76862746, 0.27058825, 0.27058825, 0.54509807)
 material = SubResource("StandardMaterial3D_kry3j")
 top_radius = 0.3
 bottom_radius = 0.6
-height = 3.2
+height = 4.4
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_21xkr"]
 
 [node name="Main" type="Node3D" unique_id=1330794445]
 script = ExtResource("1_8gbba")
@@ -67,7 +70,7 @@ shape = SubResource("BoxShape3D_1bvp3")
 mesh = SubResource("BoxMesh_lquwl")
 
 [node name="Player" parent="." unique_id=1838559469 instance=ExtResource("2_8gbba")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.781, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 
 [node name="CameraPivot" type="Marker3D" parent="Player" unique_id=1189069542]
 unique_name_in_owner = true
@@ -79,13 +82,13 @@ transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 5.919811, -
 attributes = SubResource("CameraAttributesPractical_kry3j")
 projection = 1
 fov = 80.0
-size = 25.0
+size = 30.0
 
 [node name="GrabRing" parent="Player" unique_id=2073420933 instance=ExtResource("5_kry3j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.7269897, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.973131, 0)
 
 [node name="GrabBeam" type="MeshInstance3D" parent="Player" unique_id=1496556720]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -3.9832153, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -5.5917535, 0)
 visible = false
 mesh = SubResource("CylinderMesh_21xkr")
 
@@ -150,3 +153,34 @@ transform = Transform3D(-3.4969112e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.4969112e-
 
 [node name="Mountain19" parent="Mountains" unique_id=1281151918 instance=ExtResource("6_21xkr")]
 transform = Transform3D(0.94161975, 0.0001235704, 0.33667815, -0.0005208214, 0.9999992, 0.0010896198, -0.33667782, -0.0012013562, 0.94161916, -96.21109, 0, 35.732254)
+
+[node name="Walls" type="Node3D" parent="." unique_id=978984293]
+visible = false
+
+[node name="Wall" type="StaticBody3D" parent="Walls" unique_id=928285095]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, -197.6266, 11.15332, -0.04449272)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall" unique_id=1688012644]
+shape = SubResource("BoxShape3D_21xkr")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="Wall2" type="StaticBody3D" parent="Walls" unique_id=1629907073]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 197.627, 11.153, -0.044)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall2" unique_id=1706169232]
+shape = SubResource("BoxShape3D_21xkr")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="Wall3" type="StaticBody3D" parent="Walls" unique_id=2075556555]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, -0.04, 11.153, 197.627)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall3" unique_id=758299288]
+shape = SubResource("BoxShape3D_21xkr")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="Wall4" type="StaticBody3D" parent="Walls" unique_id=2054095760]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, -0.04, 11.153, -197.627)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4" unique_id=1394969753]
+shape = SubResource("BoxShape3D_21xkr")
+debug_color = Color(0, 0.6, 0.69803923, 1)

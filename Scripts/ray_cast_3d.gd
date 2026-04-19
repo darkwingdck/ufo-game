@@ -1,6 +1,6 @@
 extends RayCast3D
 
-@export var pull_speed: float = 12.0
+@export var pull_speed: float = 15.0
 @export var stop_distance: float = 2.2
 @export var grab_ring_hint_scene: PackedScene
 
