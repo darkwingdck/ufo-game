@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bhweq6xksdmri"]
+
+[ext_resource type="PackedScene" uid="uid://dgtcrjsfngegj" path="res://Art/Models/low_poly_mountain_free.glb" id="1_sb24f"]
+
+[node name="Mountain" type="Node3D" unique_id=1362139231]
+
+[node name="MountainModel" parent="." unique_id=347227711 instance=ExtResource("1_sb24f")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -20.38966, 0, 19.31334)

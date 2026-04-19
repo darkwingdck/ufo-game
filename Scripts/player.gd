@@ -7,7 +7,7 @@ extends CharacterBody3D
 
 @export_group("Movement")
 @export var movement_speed := 14
-@export var acceleration := 30.0
+@export var acceleration := 50.0
 
 var _camera_input_direction := Vector2.ZERO
 
@@ -40,7 +40,6 @@ func _physics_process(delta: float) -> void:
 	
 func handle_camera_movement(delta: float) -> void:
 	_camera_pivot.rotation.y -= _camera_input_direction.x * delta
-	
 	_camera_input_direction = Vector2.ZERO
 	
 func handle_gamepad_camera_input() -> void:
