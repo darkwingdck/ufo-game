@@ -24,7 +24,7 @@ func _physics_process(delta: float) -> void:
 		grab_ring_hint.visible = false
 		return
 	var hit: Object = get_collider()
-	if "Mob" not in hit.name:
+	if "Cow" not in hit.name:
 		grab_ring_hint.visible = false
 		return
 	grab_ring_hint.visible = true
