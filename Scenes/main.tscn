@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ckyhxf456n5dc" path="res://Scenes/player.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://g4hnu5cswewj" path="res://Scenes/mob.tscn" id="2_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://beb3afju2g6te" path="res://Scenes/grass.tscn" id="4_6bp64"]
+[ext_resource type="PackedScene" uid="uid://bp7kkif37mawp" path="res://Scenes/tractor.tscn" id="4_344ge"]
 [ext_resource type="PackedScene" uid="uid://6lgjhgwxxer2" path="res://Scenes/grab_ring.tscn" id="5_kry3j"]
 [ext_resource type="PackedScene" uid="uid://bhweq6xksdmri" path="res://Scenes/mountain.tscn" id="6_21xkr"]
 
@@ -67,15 +68,22 @@ environment = SubResource("Environment_7mycd")
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1049672212]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
+[node name="Tractor" parent="Ground" unique_id=410111024 instance=ExtResource("4_344ge")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -3.926372, 1.5558081, 0)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1389252130]
+visible = false
 shape = SubResource("BoxShape3D_1bvp3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1600735746]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.036902346, 0.00012207031, 0.052538086)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06583301, 0.00012207031, 0.01872461)
 mesh = SubResource("BoxMesh_lquwl")
 
 [node name="Grass" parent="Ground" unique_id=596694638 instance=ExtResource("4_6bp64")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.994812, 0)
+
+[node name="Mob" parent="Ground" unique_id=532819903 instance=ExtResource("2_jjvhh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5303955, 0)
 
 [node name="Player" parent="." unique_id=1838559469 instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)

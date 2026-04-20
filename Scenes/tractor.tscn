@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bp7kkif37mawp"]
+
+[ext_resource type="PackedScene" uid="uid://co8muyakkujn4" path="res://Art/Models/tractor.glb" id="1_wt7k5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wt7k5"]
+size = Vector3(15.697266, 7.369751, 12.10614)
+
+[node name="Tractor" type="StaticBody3D" unique_id=410111024]
+
+[node name="Model" parent="." unique_id=1371559455 instance=ExtResource("1_wt7k5")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1262251744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4248047, 1.1926882, -0.03872698)
+shape = SubResource("BoxShape3D_wt7k5")
