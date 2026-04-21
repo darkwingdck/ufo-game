@@ -6,15 +6,27 @@ extends CharacterBody3D
 @export var deadzone := 0.1
 
 @export_group("Movement")
-@export var movement_speed := 14
-@export var acceleration := 50.0
+@export var movement_speed := 16
+@export var acceleration := 100.0
 
 var _camera_input_direction := Vector2.ZERO
 
 @onready var _camera_pivot: Node3D = %CameraPivot
 @onready var _camera: Camera3D = %Camera3D
 
+@export_group("Tilt")
+@export var tilt_amount := 0.01
+@export var tilt_speed := 50
+var current_tilt := Vector3.ZERO
+
 var target_velocity: Vector3 = Vector3.ZERO
+
+@export_group("Hover")
+@export var hover_amplitude := 0.2
+@export var hover_speed := 6
+
+var hover_time := 0.0
+var base_height := 0.0
 
 func _input(event:InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
@@ -33,16 +45,17 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	handle_gamepad_camera_input()
+	handle_gamepad_camera_movement()
 	handle_camera_movement(delta)
 	handle_movement(delta)
+	handle_tilt(delta)
 	move_and_slide()
 	
 func handle_camera_movement(delta: float) -> void:
 	_camera_pivot.rotation.y -= _camera_input_direction.x * delta
 	_camera_input_direction = Vector2.ZERO
 	
-func handle_gamepad_camera_input() -> void:
+func handle_gamepad_camera_movement() -> void:
 	var stick_input := Vector2(
 		Input.get_joy_axis(0, JOY_AXIS_RIGHT_X),
 		Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
@@ -70,3 +83,25 @@ func handle_movement(delta: float) -> void:
 	)
 
 	velocity = velocity.move_toward(move_direction * movement_speed, acceleration * delta)
+	
+func handle_tilt(delta: float) -> void:
+	var model := get_node("Pivot/Character")
+
+	if velocity.length() < 0.1:
+		current_tilt = current_tilt.lerp(Vector3.ZERO, tilt_speed * delta)
+	else:
+		var local_vel: Vector3 = global_transform.basis.inverse() * velocity
+		
+		var target_tilt := Vector3(
+			-local_vel.z * tilt_amount,
+			0.0,
+			local_vel.x * tilt_amount
+		)
+		current_tilt = current_tilt.lerp(target_tilt, tilt_speed * delta)
+
+	hover_time += delta * hover_speed
+	var hover_offset := sin(hover_time) * hover_amplitude
+
+	model.rotation.x = -current_tilt.x
+	model.rotation.z = -current_tilt.z
+	model.position.y = hover_offset

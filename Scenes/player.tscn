@@ -3,10 +3,33 @@
 [ext_resource type="Script" uid="uid://ck2w25mvhtqhq" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="PackedScene" uid="uid://djovmavt7gjy7" path="res://Art/Models/ufo.glb" id="2_6t5aa"]
 [ext_resource type="Script" uid="uid://c1uc3ij4bp3yj" path="res://Scripts/ray_cast_3d.gd" id="3_6t5aa"]
-[ext_resource type="PackedScene" uid="uid://bgsg3h3fh1ox5" path="res://Scenes/grab_ring_hint.tscn" id="4_vgqql"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
 radius = 1.4892538
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6tm3a"]
+albedo_color = Color(0.76862746, 0.27058825, 0.27058825, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_vgqql"]
+material = SubResource("StandardMaterial3D_6tm3a")
+inner_radius = 0.96
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kry3j"]
+transparency = 1
+albedo_color = Color(0.76862746, 0.27058825, 0.27058825, 0.54509807)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vgqql"]
+material = SubResource("StandardMaterial3D_kry3j")
+top_radius = 0.3
+bottom_radius = 0.6
+height = 4.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hch03"]
+transparency = 1
+albedo_color = Color(0.76862746, 0.27058825, 0.27058825, 0.32156864)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fkybt"]
+material = SubResource("StandardMaterial3D_hch03")
 
 [node name="Player" type="CharacterBody3D" unique_id=1838559469]
 script = ExtResource("1_cvnsp")
@@ -19,7 +42,31 @@ transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=379610173]
 shape = SubResource("SphereShape3D_onrkg")
 
-[node name="RayCast3D" type="RayCast3D" parent="." unique_id=340294896]
+[node name="Grabber" type="Node3D" parent="." unique_id=993394131]
+
+[node name="RayCast3D" type="RayCast3D" parent="Grabber" unique_id=340294896]
 transform = Transform3D(1, 0, 0, 0, 30, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("3_6t5aa")
-grab_ring_hint_scene = ExtResource("4_vgqql")
+
+[node name="GrabRing" type="MeshInstance3D" parent="Grabber" unique_id=952528827]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -9.973131, 0)
+mesh = SubResource("TorusMesh_vgqql")
+
+[node name="GrabBeam" type="MeshInstance3D" parent="Grabber" unique_id=395271394]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -5.5917535, 0)
+visible = false
+mesh = SubResource("CylinderMesh_vgqql")
+
+[node name="GrabRingHint" type="Node3D" parent="Grabber" unique_id=1913709768]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Grabber/GrabRingHint" unique_id=1382579638]
+transform = Transform3D(2, 0, 0, 0, 0.01, 0, 0, 0, 2, 0, -9.970947, 0)
+mesh = SubResource("CylinderMesh_fkybt")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Grabber/GrabRingHint" unique_id=764600928]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.970947, 0)
+light_energy = 0.1
+light_size = 0.557
+light_specular = 16.0
+omni_range = 1.0479246

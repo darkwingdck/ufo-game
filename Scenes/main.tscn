@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://ckyhxf456n5dc" path="res://Scenes/player.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://g4hnu5cswewj" path="res://Scenes/cow.tscn" id="2_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://beb3afju2g6te" path="res://Scenes/grass.tscn" id="4_6bp64"]
-[ext_resource type="PackedScene" uid="uid://6lgjhgwxxer2" path="res://Scenes/grab_ring.tscn" id="5_kry3j"]
 [ext_resource type="PackedScene" uid="uid://bhweq6xksdmri" path="res://Scenes/mountain.tscn" id="6_21xkr"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_1bvp3"]
@@ -37,16 +36,6 @@ dof_blur_far_distance = 112.0
 dof_blur_near_enabled = true
 dof_blur_near_distance = 84.0
 dof_blur_near_transition = 5.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kry3j"]
-transparency = 1
-albedo_color = Color(0.76862746, 0.27058825, 0.27058825, 0.54509807)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_21xkr"]
-material = SubResource("StandardMaterial3D_kry3j")
-top_radius = 0.3
-bottom_radius = 0.6
-height = 4.4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_21xkr"]
 
@@ -92,14 +81,6 @@ attributes = SubResource("CameraAttributesPractical_kry3j")
 projection = 1
 fov = 80.0
 size = 30.0
-
-[node name="GrabRing" parent="Player" unique_id=2073420933 instance=ExtResource("5_kry3j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.973131, 0)
-
-[node name="GrabBeam" type="MeshInstance3D" parent="Player" unique_id=1496556720]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -5.5917535, 0)
-visible = false
-mesh = SubResource("CylinderMesh_21xkr")
 
 [node name="Mountains" type="Node3D" parent="." unique_id=71465853]
 
