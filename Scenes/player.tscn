@@ -86,9 +86,10 @@ shape = SubResource("SphereShape3D_onrkg")
 
 [node name="Grabber" type="Node3D" parent="." unique_id=993394131]
 
-[node name="RayCast3D" type="RayCast3D" parent="Grabber" unique_id=340294896]
+[node name="RayCast3D" type="RayCast3D" parent="Grabber" unique_id=340294896 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 30, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("3_6t5aa")
+player = NodePath("../..")
 
 [node name="GrabRing" type="MeshInstance3D" parent="Grabber" unique_id=952528827]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -9.973131, 0)

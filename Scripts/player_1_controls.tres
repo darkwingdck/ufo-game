@@ -1,0 +1,6 @@
+[gd_resource type="Resource" format=3 uid="uid://dcilcjb4mnoio"]
+
+[ext_resource type="Script" uid="uid://cbcomh1jl7x6h" path="res://Scripts/player_controls.gd" id="1_s7de4"]
+
+[resource]
+script = ExtResource("1_s7de4")

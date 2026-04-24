@@ -5,7 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://ckyhxf456n5dc" path="res://Scenes/player.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://g4hnu5cswewj" path="res://Scenes/cow.tscn" id="2_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://beb3afju2g6te" path="res://Scenes/grass.tscn" id="4_6bp64"]
+[ext_resource type="Resource" uid="uid://dcilcjb4mnoio" path="res://Scripts/player_1_controls.tres" id="6_6bp64"]
 [ext_resource type="PackedScene" uid="uid://bhweq6xksdmri" path="res://Scenes/mountain.tscn" id="6_21xkr"]
+[ext_resource type="Resource" uid="uid://mlqui1w6f8fq" path="res://Scripts/player_2_controls.tres" id="7_344ge"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_1bvp3"]
 panorama = ExtResource("1_bo1nx")
@@ -30,14 +32,13 @@ albedo_color = Color(0.35686275, 0.49411765, 0.23529412, 1)
 material = SubResource("StandardMaterial3D_21xkr")
 size = Vector3(200, 2, 200)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_21xkr"]
+
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_kry3j"]
 dof_blur_far_enabled = true
-dof_blur_far_distance = 112.0
-dof_blur_near_enabled = true
+dof_blur_far_distance = 118.89
 dof_blur_near_distance = 84.0
 dof_blur_near_transition = 5.0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_21xkr"]
 
 [node name="Main" type="Node3D" unique_id=1330794445]
 script = ExtResource("1_8gbba")
@@ -66,21 +67,6 @@ mesh = SubResource("BoxMesh_lquwl")
 
 [node name="Grass" parent="Ground" unique_id=596694638 instance=ExtResource("4_6bp64")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.994812, 0)
-
-[node name="Player" parent="." unique_id=1838559469 instance=ExtResource("2_8gbba")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-
-[node name="CameraPivot" type="Marker3D" parent="Player" unique_id=1189069542]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.88021255, 0.47458, 0, -0.47458, 0.88021255, 0, 0, 0)
-
-[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot" unique_id=374593196]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 5.919811, -0.010779381, 84.564064)
-attributes = SubResource("CameraAttributesPractical_kry3j")
-projection = 1
-fov = 80.0
-size = 30.0
 
 [node name="Mountains" type="Node3D" parent="." unique_id=71465853]
 
@@ -174,3 +160,65 @@ transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, -0.04, 11.153, -197.627
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4" unique_id=1394969753]
 shape = SubResource("BoxShape3D_21xkr")
 debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1772548675]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer" unique_id=535506729]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer" unique_id=1770611842]
+handle_input_locally = false
+size = Vector2i(575, 648)
+render_target_update_mode = 4
+
+[node name="Player1" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1838559469 instance=ExtResource("2_8gbba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+controls = ExtResource("6_6bp64")
+
+[node name="CameraPivot" type="Marker3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Player1" unique_id=1189069542]
+transform = Transform3D(1, 0, 0, 0, 0.88021255, 0.47458, 0, -0.47458, 0.88021255, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Player1/CameraPivot" unique_id=374593196]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 5.919811, -0.010779381, 84.564064)
+attributes = SubResource("CameraAttributesPractical_kry3j")
+projection = 1
+fov = 80.0
+size = 45.0
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer" unique_id=1054889598]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="HBoxContainer" unique_id=294136453]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer2" unique_id=1020544326]
+handle_input_locally = false
+size = Vector2i(576, 648)
+render_target_update_mode = 4
+
+[node name="Player2" parent="HBoxContainer/SubViewportContainer2/SubViewport" unique_id=613968568 instance=ExtResource("2_8gbba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -14.963379)
+controls = ExtResource("7_344ge")
+
+[node name="CameraPivot" type="Marker3D" parent="HBoxContainer/SubViewportContainer2/SubViewport/Player2" unique_id=71668278]
+transform = Transform3D(1, 0, 0, 0, 0.8802124, 0.47457993, 0, -0.47457993, 0.8802124, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer2/SubViewport/Player2/CameraPivot" unique_id=682482749]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 5.919811, -0.010779381, 84.564064)
+attributes = SubResource("CameraAttributesPractical_kry3j")
+projection = 1
+fov = 80.0
+size = 45.0

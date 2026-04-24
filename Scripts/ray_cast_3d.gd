@@ -4,17 +4,10 @@ extends RayCast3D
 @export var stop_distance: float = 2.1
 
 var grabbed_cow: CharacterBody3D = null
-var grab_ring_hint: Node3D = null
 
-var grab_beam: MeshInstance3D = null
-
-func _ready() -> void:
-	init_grabber()
-
-func init_grabber() -> void:
-	grab_ring_hint = get_node("../GrabRingHint")
-	grab_beam = get_node("../GrabBeam")
-	
+@onready var grab_ring_hint: Node3D = get_node("../GrabRingHint")
+@onready var grab_beam: MeshInstance3D = get_node("../GrabBeam")
+@export var player: CharacterBody3D
 
 func _physics_process(delta: float) -> void:
 	grab_beam.visible = false
@@ -26,10 +19,10 @@ func _physics_process(delta: float) -> void:
 	if "Cow" not in hit.name and "Tractor" not in hit.name:
 		grab_ring_hint.visible = false
 		return
-		
+
 	grab_ring_hint.visible = true
 
-	if Input.is_action_pressed("grab"):
+	if player.is_grabbing():
 		grabbed_cow = hit
 		grab_beam.visible = true
 		pull_cow(delta)
