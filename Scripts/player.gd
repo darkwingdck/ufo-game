@@ -15,6 +15,27 @@ var _camera_input_direction := Vector2.ZERO
 @export var movement_speed := 16
 @export var acceleration := 100.0
 var target_velocity: Vector3 = Vector3.ZERO
+var last_move_direction: Vector3 = Vector3.ZERO
+
+# ==[ DASH ]==
+@export_group("Dash")
+@export var dash_speed := 40.0
+@export var dash_duration := 0.2
+@export var dash_cooldown := 0.1
+var is_dashing := false
+var dash_timer := 0.0
+var dash_cooldown_timer := 0.0
+var dash_direction := Vector3.ZERO
+
+# ==[ STAMINA ]==
+@export_group("Stamina")
+@export var max_stamina := 100.0
+@export var stamina := 100.0
+@export var dash_cost := 25.0
+@export var stamina_regen := 20.0 # в секунду
+@export var regen_delay := 0.5
+@onready var stamina_bar: ProgressBar = get_node("../CanvasLayer/StaminaBar")
+var regen_timer := 0.0
 
 # ==[ TILT ]==
 @export_group("Tilt")
@@ -27,6 +48,9 @@ var current_tilt := Vector3.ZERO
 @export var hover_amplitude := 0.2
 @export var hover_speed := 6
 var hover_time := 0.0
+
+func _ready() -> void:
+	stamina_bar.max_value = max_stamina
 
 func _input(event:InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
@@ -49,10 +73,66 @@ func _physics_process(delta: float) -> void:
 		handle_gamepad_camera(delta)
 	else:
 		handle_keyboard_camera(delta)
-
+	update_stamina(delta)
+	update_stamina_ui()
+	handle_dash_input()
+	update_dash(delta)
 	handle_movement(delta)
 	handle_tilt(delta)
 	move_and_slide()
+
+func update_stamina_ui() -> void:
+	stamina_bar.value = stamina
+
+func update_stamina(delta: float) -> void:
+	if regen_timer > 0.0:
+		regen_timer -= delta
+		return
+
+	if stamina < max_stamina:
+		stamina += stamina_regen * delta
+		stamina = min(stamina, max_stamina)
+
+func handle_dash_input() -> void:
+	if is_dashing:
+		return
+		
+	if stamina < dash_cost:
+		return
+
+	if Input.is_action_just_pressed(controls.dash):
+		start_dash()
+
+func start_dash() -> void:
+	is_dashing = true
+	dash_timer = dash_duration
+
+	stamina -= dash_cost
+	regen_timer = regen_delay
+
+	# если есть ввод — дешим туда
+	if last_move_direction.length() > 0.1:
+		dash_direction = last_move_direction
+	else:
+		# fallback — вперёд по камере
+		var forward: Vector3 = -_camera.global_basis.z
+		forward.y = 0.0
+		dash_direction = forward.normalized()
+
+func update_dash(delta: float) -> void:
+	if dash_cooldown_timer > 0.0:
+		dash_cooldown_timer -= delta
+
+	if !is_dashing:
+		return
+
+	dash_timer -= delta
+
+	# во время деша полностью переопределяем скорость
+	velocity = dash_direction * dash_speed
+
+	if dash_timer <= 0.0:
+		is_dashing = false
 
 func handle_keyboard_camera(delta: float) -> void:
 	_camera_pivot.rotation.y -= _camera_input_direction.x * delta
@@ -78,6 +158,9 @@ func handle_movement(delta: float) -> void:
 	var move_direction: Vector3 = forward * raw_input.y + right * raw_input.x
 	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
+	
+	if move_direction.length() > 0.1:
+		last_move_direction = move_direction
 
 	var horizontal_velocity: Vector3 = velocity
 	horizontal_velocity.y = 0.0
@@ -87,7 +170,7 @@ func handle_movement(delta: float) -> void:
 	)
 
 	velocity = velocity.move_toward(move_direction * movement_speed, acceleration * delta)
-	
+
 func handle_tilt(delta: float) -> void:
 	var model := get_node("Pivot/Character")
 

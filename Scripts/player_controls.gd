@@ -6,3 +6,4 @@ extends Resource
 @export var move_forward := "p1_move_forward"
 @export var move_back := "p1_move_back"
 @export var grab := "p1_grab"
+@export var dash := "p1_dash"
