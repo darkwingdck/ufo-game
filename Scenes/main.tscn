@@ -180,8 +180,9 @@ handle_input_locally = false
 size = Vector2i(959, 1080)
 render_target_update_mode = 4
 
-[node name="Player1" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1838559469 instance=ExtResource("2_8gbba")]
+[node name="Player1" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1838559469 node_paths=PackedStringArray("enemy_camera") instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 10, 0)
+enemy_camera = NodePath("../../../SubViewportContainer2/SubViewport/Player2/CameraPivot/Camera3D")
 controls = ExtResource("6_6bp64")
 
 [node name="CameraPivot" type="Marker3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Player1" unique_id=1189069542]
@@ -225,8 +226,9 @@ handle_input_locally = false
 size = Vector2i(960, 1080)
 render_target_update_mode = 4
 
-[node name="Player2" parent="HBoxContainer/SubViewportContainer2/SubViewport" unique_id=613968568 instance=ExtResource("2_8gbba")]
+[node name="Player2" parent="HBoxContainer/SubViewportContainer2/SubViewport" unique_id=613968568 node_paths=PackedStringArray("enemy_camera") instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 10, 0)
+enemy_camera = NodePath("../../../SubViewportContainer/SubViewport/Player1/CameraPivot/Camera3D")
 controls = ExtResource("7_344ge")
 
 [node name="CameraPivot" type="Marker3D" parent="HBoxContainer/SubViewportContainer2/SubViewport/Player2" unique_id=71668278]

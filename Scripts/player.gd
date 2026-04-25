@@ -7,6 +7,11 @@ extends CharacterBody3D
 @export var deadzone := 0.1
 @onready var _camera_pivot: Node3D = get_node("CameraPivot")
 @onready var _camera: Camera3D = get_node("CameraPivot/Camera3D")
+@export var enemy_camera: Camera3D = null
+@export var random_camera_shake_strength: float = 1
+@export var camera_shake_fade: float = 15
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var camera_shake_strength: float = 0.0
 var _camera_input_direction := Vector2.ZERO
 
 # ==[ MOVEMENT ]==
@@ -14,8 +19,10 @@ var _camera_input_direction := Vector2.ZERO
 @export var controls: Resource = null
 @export var movement_speed := 16
 @export var acceleration := 100.0
+@export var push_force := 20.0
 var target_velocity: Vector3 = Vector3.ZERO
 var last_move_direction: Vector3 = Vector3.ZERO
+
 
 # ==[ DASH ]==
 @export_group("Dash")
@@ -80,6 +87,40 @@ func _physics_process(delta: float) -> void:
 	handle_movement(delta)
 	handle_tilt(delta)
 	move_and_slide()
+	handle_player_collisions(delta)
+
+func shake_camera() -> void:
+	camera_shake_strength = random_camera_shake_strength
+	
+func random_offset() -> Vector3:
+	return Vector3(
+		rng.randf_range(-camera_shake_strength, camera_shake_strength),
+		rng.randf_range(-camera_shake_strength, camera_shake_strength),
+		rng.randf_range(-camera_shake_strength, camera_shake_strength),
+	)
+
+func handle_player_collisions(delta: float) -> void:
+	for i in range(get_slide_collision_count()):
+		var collision: KinematicCollision3D = get_slide_collision(i)
+		var other: Object = collision.get_collider()
+
+		if other is CharacterBody3D and other != self:
+			shake_camera()
+			push_player(other, collision)
+	if camera_shake_strength > 0:
+		camera_shake_strength = lerpf(camera_shake_strength, 0, camera_shake_fade * delta)
+		enemy_camera.h_offset = random_offset().x
+		enemy_camera.v_offset = random_offset().y
+			
+func push_player(other: CharacterBody3D, collision: KinematicCollision3D) -> void:
+	var normal: Vector3 = collision.get_normal()
+
+	# толкаем в сторону от столкновения
+	var push_dir: Vector3 = -normal
+	push_dir.y = 0.0
+	push_dir = push_dir.normalized()
+
+	other.velocity += push_dir * push_force
 
 func update_stamina_ui() -> void:
 	stamina_bar.value = stamina
