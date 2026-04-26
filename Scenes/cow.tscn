@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cn7620m1khel2" path="res://Art/Models/cow.glb" id="2_b44se"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ypr7k"]
-size = Vector3(1.2142334, 0.88479614, 2.0048943)
+size = Vector3(2.1178284, 0.88479614, 2.7653227)
 
 [node name="Cow" type="CharacterBody3D" unique_id=532819903]
 script = ExtResource("1_u8nqw")
@@ -15,5 +15,5 @@ script = ExtResource("1_u8nqw")
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2066726022]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.002746582, 0.06959534, -0.14961433)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07765198, 0.06959534, -0.145679)
 shape = SubResource("BoxShape3D_ypr7k")
