@@ -72,13 +72,15 @@ stamina_bar = NodePath("../CanvasLayer/StaminaBar2")
 [node name="CameraPivot" type="Marker3D" parent="." unique_id=729180643]
 transform = Transform3D(1, 0, 0, 0, 0.88021255, 0.47458, 0, -0.47458, 0.88021255, 0, 10, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1442154076]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1442154076 node_paths=PackedStringArray("player_1", "player_2")]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, -6.172, 81.242)
 attributes = SubResource("CameraAttributesPractical_rfjv2")
 projection = 1
 fov = 80.0
 size = 45.0
 script = ExtResource("5_wowpa")
+player_1 = NodePath("../../Player1")
+player_2 = NodePath("../../Player2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1616566478]
 
