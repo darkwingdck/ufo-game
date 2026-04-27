@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://wfmxaxfrmtgg"]
+
+[ext_resource type="Texture2D" uid="uid://bxx81r4jcmqsg" path="res://skybox.png" id="1_3dryh"]
+[ext_resource type="PackedScene" uid="uid://ckyhxf456n5dc" path="res://Scenes/player.tscn" id="2_wowpa"]
+[ext_resource type="Resource" uid="uid://dcilcjb4mnoio" path="res://Scripts/player_1_controls.tres" id="3_i6g32"]
+[ext_resource type="Resource" uid="uid://mlqui1w6f8fq" path="res://Scripts/player_2_controls.tres" id="4_1l0tm"]
+[ext_resource type="Script" uid="uid://bt617egaoowgg" path="res://Scenes/camera.gd" id="5_wowpa"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_v158k"]
+panorama = ExtResource("1_3dryh")
+
+[sub_resource type="Sky" id="Sky_lquwl"]
+sky_material = SubResource("PanoramaSkyMaterial_v158k")
+
+[sub_resource type="Environment" id="Environment_h4fw4"]
+background_mode = 2
+sky = SubResource("Sky_lquwl")
+sky_custom_fov = 15.2
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ldgsr"]
+radius = 30.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o5yvi"]
+albedo_color = Color(0.35686275, 0.49411765, 0.23529412, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rku1e"]
+material = SubResource("StandardMaterial3D_o5yvi")
+top_radius = 30.0
+bottom_radius = 30.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_rfjv2"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 118.89
+dof_blur_near_distance = 84.0
+dof_blur_near_transition = 5.0
+
+[node name="Game" type="Node3D" unique_id=1045578246]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2044610817]
+transform = Transform3D(1, 0, 0, 0, -0.79605496, 0.6052243, 0, -0.6052243, -0.79605496, -0.80640984, 53.60378, -5.517136)
+light_color = Color(1, 0.4392157, 0.101960786, 1)
+light_energy = 2.0
+light_volumetric_fog_energy = 10.0
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1172657008]
+environment = SubResource("Environment_h4fw4")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=221975362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1839525244]
+visible = false
+shape = SubResource("CylinderShape3D_ldgsr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=280265126]
+mesh = SubResource("CylinderMesh_rku1e")
+
+[node name="Player1" parent="." unique_id=1838559469 node_paths=PackedStringArray("stamina_bar") instance=ExtResource("2_wowpa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 10, 0)
+controls = ExtResource("3_i6g32")
+stamina_bar = NodePath("../CanvasLayer/StaminaBar1")
+
+[node name="Player2" parent="." unique_id=2113404220 node_paths=PackedStringArray("stamina_bar") instance=ExtResource("2_wowpa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 10, 0)
+controls = ExtResource("4_1l0tm")
+stamina_bar = NodePath("../CanvasLayer/StaminaBar2")
+
+[node name="CameraPivot" type="Marker3D" parent="." unique_id=729180643]
+transform = Transform3D(1, 0, 0, 0, 0.88021255, 0.47458, 0, -0.47458, 0.88021255, 0, 10, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1442154076]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, -6.172, 81.242)
+attributes = SubResource("CameraAttributesPractical_rfjv2")
+projection = 1
+fov = 80.0
+size = 45.0
+script = ExtResource("5_wowpa")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1616566478]
+
+[node name="StaminaBar1" type="ProgressBar" parent="CanvasLayer" unique_id=150057582]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -153.5
+offset_right = 100.0
+offset_bottom = 153.5
+grow_vertical = 2
+rounded = true
+fill_mode = 3
+show_percentage = false
+
+[node name="StaminaBar2" type="ProgressBar" parent="CanvasLayer" unique_id=1258390462]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -153.5
+offset_right = -50.0
+offset_bottom = 153.5
+grow_horizontal = 0
+grow_vertical = 2
+rounded = true
+fill_mode = 3
+show_percentage = false
+
+[connection signal="player_hit" from="Player1" to="CameraPivot/Camera3D" method="trigger_shake"]
+[connection signal="player_hit" from="Player2" to="CameraPivot/Camera3D" method="trigger_shake"]
